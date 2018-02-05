@@ -16,7 +16,7 @@
 return [
 
     // 应用调试模式
-    'app_debug'              => false,
+    'app_debug'              => true,
     // 应用Trace
     'app_trace'              => false,
     // 应用模式状态
@@ -118,5 +118,10 @@ return [
     // Customize 404 Request
     'http_exception_template'=>  [
       404 => Env::get('app_path') . 'error_pages/404.html',
+    ],
+
+    'recaptcha' => [
+      'sitekey' => getenv("RECAPTCHA_PUBLIC"),
+      'secret' => getenv("RECAPTCHA_SECRET"),
     ],
 ];
