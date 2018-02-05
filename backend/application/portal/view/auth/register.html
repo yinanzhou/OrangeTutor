@@ -77,7 +77,7 @@
           <div class="g-recaptcha" data-sitekey="{$Think.config.recaptcha['sitekey']}" data-callback="recaptchaComplete" data-expired-callback="recaptchaExpire"></div>
         </div>
         <button type="submit" class="btn btn-lg btn-primary btn-block"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create my account</button>
-        {:token()}
+        {:token('register')}
       </form>
     </div>
     <hr>

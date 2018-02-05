@@ -21,11 +21,35 @@ class Auth extends Controller {
     if (Cookie::has('email')) {
       $this->assign('prefilledEmail', Cookie::get('email'));
     }
-    if (!$this->request->isPost($this->request->post('user_email','invalid',FILTER_VALIDATE_EMAIL))) {
+    if (!$this->request->isPost()) {
       return view()->code(401);
     }
+
     $email = $this->request->post('user_email','invalid',FILTER_VALIDATE_EMAIL);
     $this->assign('prefilledEmail', $this->request->post('user_email'));
+
+    $rules = [
+      'user_email' => 'require|email|token:login',
+      'user_password' => 'require'
+    ];
+    $errorMessages = [
+      'user_email.require' => 'Email is required.',
+      'user_email.email' => 'The email address is invalid.',
+      'user_password.require' => 'Password is required.',
+      'user_email.token' => 'Invalid form token, this may be caused by opening multiple log in page, or using back button on browser, please try again.',
+    ];
+
+    $validate = Validate::make($rules,$errorMessages);
+    $validationResult = $validate->batch(true)->check($this->request->post());
+    if (!$validationResult) {
+      $errorMessage = "Authentication cannot be completed due to the following error(s):";
+      foreach($validate->getError() as $field => $message) {
+        $errorMessage = $errorMessage . "\n" . $message;
+      }
+      $this->assign('alert', $errorMessage);
+      return view()->code(400);
+    }
+
     if ($this->isLoginCaptchaRequired($email) && !$this->verifyRecaptcha()) {
       $this->assign('alert', 'Cannot validate ReCaptcha response, please try again.');
       return view()->code(400);
@@ -82,7 +106,7 @@ class Auth extends Controller {
       'user_lastname' => 'require|max:40',
       'user_middlename' => 'max:40',
       'user_email' => 'require|email|unique:user',
-      'user_password' => 'require|length:8,24|token'
+      'user_password' => 'require|length:8,24|token:register'
     ];
     $errorMessages = [
       'user_firstname.require' => 'First name is required.',
