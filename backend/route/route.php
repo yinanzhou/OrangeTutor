@@ -10,4 +10,5 @@
 // +----------------------------------------------------------------------
 
 Route::rule('register', 'portal/auth/register', 'GET|POST');
+Route::get('/','portal/index/index');
 return [];
