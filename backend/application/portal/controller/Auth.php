@@ -71,7 +71,7 @@ class Auth extends Controller {
 
     // In case PHP changes its hashing algo in the future
     if (password_needs_rehash($user->user_password, PASSWORD_DEFAULT)) {
-      $user->user_password = $this->request->post('user_password');
+      $user->user_password = password_hash($this->request->post('user_password'), PASSWORD_DEFAULT);
       $user->save(); // Using autocomplete to rehash the password
     }
 
