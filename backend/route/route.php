@@ -9,7 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::rule('register', 'portal/auth/register', 'GET|POST');
+Route::get('/','portal/index/index');
 Route::rule('login', 'portal/auth/login', 'GET|POST');
 Route::post('login/is_recaptcha_required', 'portal/auth/checkLoginCaptchaRequired');
+Route::rule('register', 'portal/auth/register', 'GET|POST');
 return [];
