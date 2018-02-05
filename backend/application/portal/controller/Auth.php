@@ -10,6 +10,19 @@ use think\validate\ValidateRule;
 
 
 class Auth extends Controller {
+
+  public function login() {
+    return view()->code(401);
+  }
+
+  public function checkLoginCaptchaRequired() {
+    return json($this->isLoginCaptchaRequired($this->request->post('user_email')));
+  }
+
+  protected function isLoginCaptchaRequired($email) {
+    return true;
+  }
+
   public function register() {
     if (!$this->request->isPost()) {
       return view();
