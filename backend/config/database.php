@@ -19,7 +19,7 @@ return [
     // 用户名
     'username'        => 'orangetutor',
     // 密码
-    'password'        => Env::get('database_pass'),
+    'password'        => getenv('DATABASE_PASS'),
     // 端口
     'hostport'        => '3306',
     // 连接dsn
