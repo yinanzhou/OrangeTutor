@@ -10,4 +10,6 @@
 // +----------------------------------------------------------------------
 
 Route::rule('register', 'portal/auth/register', 'GET|POST');
+Route::rule('login', 'portal/auth/login', 'GET|POST');
+Route::post('login/is_recaptcha_required', 'portal/auth/checkLoginCaptchaRequired');
 return [];
