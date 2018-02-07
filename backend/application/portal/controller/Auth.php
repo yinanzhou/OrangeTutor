@@ -36,7 +36,7 @@ class Auth extends Controller {
       'user_email.require' => 'Email is required.',
       'user_email.email' => 'The email address is invalid.',
       'user_password.require' => 'Password is required.',
-      'user_email.token' => 'Invalid form token, this may be caused by opening multiple log in page, or using back button on browser, please try again.',
+      'user_email.token' => 'Invalid form token, this may be caused by opening multiple login pages, or using back button on browser, please try again.',
     ];
 
     $validate = Validate::make($rules,$errorMessages);
