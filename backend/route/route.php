@@ -1,13 +1,7 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-
+Route::get('/','portal/index/index');
+Route::rule('login', 'portal/auth/login', 'GET|POST');
+Route::post('login/is_recaptcha_required', 'portal/auth/checkLoginCaptchaRequired');
 Route::rule('register', 'portal/auth/register', 'GET|POST');
+Route::get('/logout','portal/auth/logout');
 return [];
