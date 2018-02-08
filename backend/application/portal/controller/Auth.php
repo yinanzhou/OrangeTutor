@@ -4,8 +4,11 @@ namespace app\portal\controller;
 
 use app\common\model\User;
 use think\Controller;
+use think\facade\Cache;
 use think\facade\Config;
 use think\facade\Cookie;
+use think\facade\Session;
+use think\facade\Request;
 use think\Validate;
 use think\validate\ValidateRule;
 
@@ -80,8 +83,8 @@ class Auth extends Controller {
       return view()->code(401);
     }
 
-    // TODO(yinanzhou): implement jump back function
-    echo 'login success';
+    Auth::setUser($user->user_id);
+    return redirect('https://orangetutor.tk' . $this->request->get('returnTo','/dashboard'));
   }
 
   public function checkLoginCaptchaRequired() {
@@ -141,8 +144,8 @@ class Auth extends Controller {
     $data['user_password'] = password_hash($data['user_password'], PASSWORD_DEFAULT);
     $user = new User;
     if($user->allowField(['user_firstname','user_lastname','user_middlename','user_email','user_password'])->save($data) > 0) {
-      // TODO(yinanzhou): change this to dashboard.
-      echo 'Registration succeed.';
+      Auth::setUser($user->user_id);
+      return redirect('/dashboard');
     } else {
       $this->assign('prefilledData', $data);
       $this->assign('alert', 'We are experiencing technical difficulties on creating new users, please try again later.');
@@ -168,5 +171,55 @@ class Auth extends Controller {
       return false;
     }
     return json_decode($result)->success;
+  }
+
+  /**
+   * Set the current user of the session
+   */
+  private static function setUser($user_id) {
+    Session::clear('user');
+    Session::set('user_id', $user_id, 'user');
+    Session::set('user_login_token', Auth::getUserLoginToken($user_id), 'user');
+  }
+
+  public function logout() {
+    Session::clear('user');
+    return redirect('/');
+  }
+
+  /**
+   * Check whether the user is logined.
+   * @return boolean boolean value represent user login status
+   */
+  public static function isLogin() {
+    if(!Session::has('user_id','user') || !Session::has('user_login_token','user')) {
+      return false;
+    }
+    if(Session::get('user_login_token','user')!==Auth::getUserLoginToken(Session::get('user_id','user'))) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * The user login token provides a way we can sign user out
+   * If a token have already exists, during login the previous
+   * token will be used.
+   * When we want to log a specific user out, we reassign the
+   * user login token and all session with previous token will
+   * be invalid.
+   *
+   * @author Yinan Zhou
+   * @return String the user login token
+   */
+  private static function getUserLoginToken($user_id) {
+    if(!Cache::has('user_login_token:' . $user_id)) {
+      Cache::tag('user_login_token')->set('user_login_token:' . $user_id, uniqid());
+    }
+    return Cache::get('user_login_token:' . $user_id);
+  }
+
+  public static function redirectToLogin($request) {
+    return redirect('/login?returnTo=' . urlencode($request->url()));
   }
 }
