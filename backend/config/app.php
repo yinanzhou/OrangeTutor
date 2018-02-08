@@ -117,6 +117,7 @@ return [
     'exception_handle'       => '',
     // Customize 404 Request
     'http_exception_template'=>  [
+      403 => Env::get('app_path') . 'error_pages/403.html',
       404 => Env::get('app_path') . 'error_pages/404.html',
     ],
 
