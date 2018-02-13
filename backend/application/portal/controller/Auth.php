@@ -83,7 +83,7 @@ class Auth extends Controller {
       return view()->code(401);
     }
 
-    Auth::setUser($user->user_id);
+    Auth::setUser($user);
     return redirect('https://orangetutor.tk' . $this->request->get('returnTo','/dashboard'));
   }
 
@@ -144,7 +144,7 @@ class Auth extends Controller {
     $data['user_password'] = password_hash($data['user_password'], PASSWORD_DEFAULT);
     $user = new User;
     if($user->allowField(['user_firstname','user_lastname','user_middlename','user_email','user_password'])->save($data) > 0) {
-      Auth::setUser($user->user_id);
+      Auth::setUser($user);
       return redirect('/dashboard');
     } else {
       $this->assign('prefilledData', $data);
@@ -176,14 +176,15 @@ class Auth extends Controller {
   /**
    * Set the current user of the session
    */
-  private static function setUser($user_id) {
-    Session::clear('user');
-    Session::set('user_id', $user_id, 'user');
-    Session::set('user_login_token', Auth::getUserLoginToken($user_id), 'user');
+  private static function setUser($user) {
+    Session::delete('user');
+    Session::set('user.user_id', $user->user_id);
+    Session::set('user.user_login_token', Auth::getUserLoginToken($user->user_id));
+    Session::set('user.model', $user);
   }
 
   public function logout() {
-    Session::clear('user');
+    Session::delete('user');
     return redirect('/');
   }
 
@@ -192,10 +193,10 @@ class Auth extends Controller {
    * @return boolean boolean value represent user login status
    */
   public static function isLogin() {
-    if(!Session::has('user_id','user') || !Session::has('user_login_token','user')) {
+    if(!Session::has('user.user_id') || !Session::has('user.user_login_token')) {
       return false;
     }
-    if(Session::get('user_login_token','user')!==Auth::getUserLoginToken(Session::get('user_id','user'))) {
+    if(Session::get('user.user_login_token')!==Auth::getUserLoginToken(Session::get('user.user_id'))) {
       return false;
     }
     return true;
