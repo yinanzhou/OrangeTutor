@@ -1,4 +1,8 @@
 <?php
+// Application Settings
+// Modified and translated by Yinan Zhou (yzhou109@syr.edu)
+
+// Original Copyright Notice
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -7,113 +11,109 @@
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-
-// +----------------------------------------------------------------------
-// | 应用设置
-// +----------------------------------------------------------------------
+// +---------------------------------------------------------------------
 
 return [
 
-    // 应用调试模式
+    // debug mode
     'app_debug'              => true,
-    // 应用Trace
+    // show trace information
     'app_trace'              => false,
-    // 应用模式状态
+    // application status
     'app_status'             => '',
-    // 是否支持多模块
+    // support multi-modules
     'app_multi_module'       => true,
-    // 入口自动绑定模块
+    // automatically bind module
     'auto_bind_module'       => false,
-    // 注册的根命名空间
+    // registered root namespace
     'root_namespace'         => [],
-    // 默认输出类型
+    // default view return type
     'default_return_type'    => 'html',
-    // 默认AJAX 数据返回格式,可选json xml ...
+    // default ajax request return type
     'default_ajax_return'    => 'json',
-    // 默认JSONP格式返回的处理方法
+    // default handler for JSONP request
     'default_jsonp_handler'  => 'jsonpReturn',
-    // 默认JSONP处理方法
+    // JSONP handler
     'var_jsonp_handler'      => 'callback',
-    // 默认时区
+    // timezone
     'default_timezone'       => 'America/New_York',
-    // 是否开启多语言
+    // multi-language support
     'lang_switch_on'         => false,
-    // 默认全局过滤方法 用逗号分隔多个
+    // default view filters separated by commas
     'default_filter'         => '',
-    // 默认语言
+    // default language
     'default_lang'           => 'en-us',
-    // 应用类库后缀
+    // suffix for classes
     'class_suffix'           => false,
-    // 控制器类后缀
+    // controller suffix
     'controller_suffix'      => false,
 
-    // 默认模块名
+    // default module for displaying
     'default_module'         => 'index',
-    // 禁止访问模块
+    // blocked module (cannot be visited externally)
     'deny_module_list'       => ['common'],
-    // 默认控制器名
+    // default controller name
     'default_controller'     => 'Index',
-    // 默认操作名
+    // default action name
     'default_action'         => 'index',
-    // 默认验证器
+    // default validator name
     'default_validate'       => '',
-    // 默认的空控制器名
+    // default empty controller 
     'empty_controller'       => 'Error',
-    // 操作方法后缀
+    // suffix for action
     'action_suffix'          => '',
-    // 自动搜索控制器
+    // auto searching for controller
     'controller_auto_search' => false,
 
-    // PATHINFO变量名 用于兼容模式
+    // var carrying path info
     'var_pathinfo'           => 's',
-    // 兼容PATH_INFO获取
+    // order for taking PATHINFO
     'pathinfo_fetch'         => ['ORIG_PATH_INFO', 'REDIRECT_PATH_INFO', 'REDIRECT_URL'],
-    // pathinfo分隔符
+    // pathinfo delimiter
     'pathinfo_depr'          => '/',
-    // URL伪静态后缀
+    // URL fake suffix
     'url_html_suffix'        => 'html',
-    // URL普通方式参数 用于自动生成
+    // URL common parameter
     'url_common_param'       => false,
-    // URL参数方式 0 按名称成对解析 1 按顺序解析
+    // URL parameter type 0 by name 1 order
     'url_param_type'         => 0,
-    // 路由使用完整匹配
+    // force complete route matching
     'route_complete_match'   => true,
-    // 是否强制使用路由
+    // force route to be used
     'url_route_must'         => true,
-    // 使用注解路由
+    // use annotation route
     'route_annotation'       => false,
-    // 域名根，如thinkphp.cn
+    // url domain root
     'url_domain_root'        => '',
-    // 是否自动转换URL中的控制器和操作名
+    // auto convert controllers in URL
     'url_convert'            => true,
-    // 默认的访问控制器层
+    // default layer for controllers
     'url_controller_layer'   => 'controller',
-    // 表单请求类型伪装变量
+    // variable for manupulating http method
     'var_method'             => '_method',
-    // 表单ajax伪装变量
+    // variable for detecting ajax request
     'var_ajax'               => '_ajax',
-    // 表单pjax伪装变量
+    // variable for detecting pjax request
     'var_pjax'               => '_pjax',
-    // 是否开启请求缓存 true自动缓存 支持设置请求缓存规则
+    // should request be cached
     'request_cache'          => false,
-    // 请求缓存有效期
+    // ttl for request cache
     'request_cache_expire'   => null,
-    // 全局请求缓存排除规则
+    // exemption for global cache
     'request_cache_except'   => [],
 
-    // 默认跳转页面对应的模板文件
+    // default target page for redirecting
     'dispatch_success_tmpl'  => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
     'dispatch_error_tmpl'    => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
 
-    // 异常页面的模板文件
+    // error page for system errors
     'exception_tmpl'         => Env::get('think_path') . 'tpl/think_exception.tpl',
 
-    // 错误显示信息,非调试模式有效
-    'error_message'          => '页面错误！请稍后再试～',
-    // 显示错误信息
+    // default error message
+    'error_message'          => 'System Error',
+    // show error message or not
     'show_error_msg'         => false,
-    // 异常处理handle类 留空使用 \think\exception\Handle
+    // default exception handler, empty goes to \think\exception\Handle
     'exception_handle'       => '',
     // Customize 404 Request
     'http_exception_template'=>  [
