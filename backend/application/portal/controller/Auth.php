@@ -220,6 +220,10 @@ class Auth extends Controller {
     return Cache::get('user_login_token:' . $user_id);
   }
 
+  /**
+   * Return the redirect response object to redirect user to login pages
+   * @author Yinan Zhou
+   */
   public static function redirectToLogin($request) {
     return redirect('/login?returnTo=' . urlencode($request->url()));
   }
