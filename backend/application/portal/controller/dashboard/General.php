@@ -23,6 +23,48 @@ class General extends Controller {
         'description' => 'Research shows benefits of challenging brain by coding MIPS'
       ],
     ]);
+
+    // Self enroll section
+    $selfEnrollCards = [];
+    // If there is no admin in the system, show links to add him/herself as admin
+    if (!Auth::isAdminExists()) {
+      $selfEnrollCards[] = [
+        'title' => 'Admin',
+        'description' => 'The system currently has no administrator, you can set yourself as one.<br /><b>This option will be disabled for all user once there exists an administator.</b>',
+        'url' => '',
+        'link' => 'Add Admin Privilege',
+        'enabled' => false,
+      ];
+    }
+    if (!Auth::isStudent()) {
+      $selfEnrollCards[] = [
+        'title' => 'Student',
+        'description' => 'Start exploring our tutor offerings, make appointments and more.',
+        'url' => '',
+        'link' => 'Enroll',
+        'enabled' => false,
+      ];
+    }
+    if (!Auth::isParent()) {
+      $selfEnrollCards[] = [
+        'title' => 'Parent',
+        'description' => 'View your children\'s schedule.',
+        'url' => '',
+        'link' => 'Enroll',
+        'enabled' => false,
+      ];
+    }
+    if (!Auth::isTutor()) {
+      $selfEnrollCards[] = [
+        'title' => 'Tutor',
+        'description' => 'Use your knowledge power to support students from local communities.',
+        'url' => '',
+        'link' => 'Enroll',
+        'enabled' => false,
+      ];
+    }
+    $this->assign('selfEnrollCards', $selfEnrollCards);
+
     return view();
   }
 }

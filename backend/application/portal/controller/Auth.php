@@ -251,7 +251,7 @@ class Auth extends Controller {
     return !is_null(Membership::where('group_id=:group AND user_id=:user
         AND (membership_validfrom IS NULL OR membership_validfrom >= NOW())
         AND (membership_expiration IS NULL OR membership_expiration < NOW())')
-        ->bind(['group'=>[$group_id,\PDO::PARAM_INT],'user'=>[$user_id,\PDO::PARAM_INT]])
+        ->bind(['group'=>[$group_id, \PDO::PARAM_INT],'user'=>[$user_id, \PDO::PARAM_INT]])
         ->find());
   }
 
@@ -269,5 +269,13 @@ class Auth extends Controller {
 
   public static function isParent($user_id = null) {
     return Auth::isMemberOf(Auth::PARENT_GROUP_ID, $user_id);
+  }
+
+  public static function isAdminExists() {
+    return !is_null(Membership::where('group_id=:group
+        AND (membership_validfrom IS NULL OR membership_validfrom >= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration < NOW())')
+        ->bind(['group'=>[Auth::ADMIN_GROUP_ID, \PDO::PARAM_INT]])
+        ->find());
   }
 }
