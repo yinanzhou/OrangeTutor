@@ -2,6 +2,7 @@
 
 namespace app\portal\controller;
 
+use app\common\model\Membership;
 use app\common\model\User;
 use think\Controller;
 use think\facade\Cache;
@@ -13,6 +14,11 @@ use think\Validate;
 use think\validate\ValidateRule;
 
 class Auth extends Controller {
+
+  const ADMIN_GROUP_ID = 1;
+  const TUTOR_GROUP_ID = 2;
+  const STUDENT_GROUP_ID = 3;
+  const PARENT_GROUP_ID = 4;
 
   public function login() {
     Cookie::init([
@@ -226,5 +232,42 @@ class Auth extends Controller {
    */
   public static function redirectToLogin($request) {
     return redirect('/login?returnTo=' . urlencode($request->url()));
+  }
+
+  public static function getUserId() {
+    if (!Auth::isLogin()) {
+      return null;
+    }
+    return Session::get('user.user_id');
+  }
+
+  public static function isMemberOf($group_id, $user_id = null) {
+    if(is_null($user_id)) {
+      $user_id = Auth::getUserId();
+    }
+    if(empty($group_id) || empty($user_id)) {
+      return false;
+    }
+    return !is_null(Membership::where('group_id=:group AND user_id=:user
+        AND (membership_validfrom IS NULL OR membership_validfrom >= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration < NOW())')
+        ->bind(['group'=>[$group_id,\PDO::PARAM_INT],'user'=>[$user_id,\PDO::PARAM_INT]])
+        ->find());
+  }
+
+  public static function isAdmin($user_id = null) {
+    return Auth::isMemberOf(Auth::ADMIN_GROUP_ID, $user_id);
+  }
+
+  public static function isTutor($user_id = null) {
+    return Auth::isMemberOf(Auth::TUTOR_GROUP_ID, $user_id);
+  }
+
+  public static function isStudent($user_id = null) {
+    return Auth::isMemberOf(Auth::STUDENT_GROUP_ID, $user_id);
+  }
+
+  public static function isParent($user_id = null) {
+    return Auth::isMemberOf(Auth::PARENT_GROUP_ID, $user_id);
   }
 }
