@@ -13,12 +13,12 @@ class General extends Controller {
     }
     $this->assign('education_news',[
       [
-        'imgUrl' => '/static/slides/phone.jpeg',
+        'imgUrl' => 'https://s3.amazonaws.com/orangetutor-demo/slide-images/phone.jpeg',
         'title' => 'Mina Jung: "No phone in class"',
         'description' => 'Research shows coorelation between phone usage and grade.'
       ],
       [
-        'imgUrl' => '/static/slides/mina.jpeg',
+        'imgUrl' => 'https://s3.amazonaws.com/orangetutor-demo/slide-images/mina.jpeg',
         'title' => 'Learning MIPS increases IQ',
         'description' => 'Research shows benefits of challenging brain by coding MIPS'
       ],
