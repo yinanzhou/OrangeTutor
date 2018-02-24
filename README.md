@@ -1,8 +1,6 @@
 # Welcome to OrangeTutor
 **OrangeTutor** is a online tutor managing portal that we are working on for Syracuse University CIS 454 Spring 2018 course.
 
-**All rights reserved** unless stated otherwise
-
 ## Team Members
 
  - Yinan Zhou
@@ -10,17 +8,26 @@
  - Kyle Ornstein
  - Marcus John
 
-## Backend
-Backend codes are all placed in ```/backend``` directory.
+### License
+Copyright 2018 Yinan Zhou
 
-#### License for Backend Codes
-The backend codes are provided under the Apache 2.0 License.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
->THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+http://www.apache.org/licenses/LICENSE-2.0
 
-Full text of the Apache 2.0 License can be found on https://www.apache.org/licenses/LICENSE-2.0.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
-#### Dependencies
+Most of the codes depend on ThinkPHP 5.1 framework, which is also
+licensed under the Apache License, Version 2.0. See Dependencies
+section for details.
+
+### Dependencies
 * PHP 5.6+
 * Composer (https://getcomposer.org/)
 * ThinkPHP 5.1 (https://github.com/top-think/think/tree/5.1)
