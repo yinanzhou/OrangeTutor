@@ -7,6 +7,14 @@ use think\Controller;
 
 class General extends Controller {
 
+  protected $beforeActionList = [
+    'passUserGroupInfo'
+  ];
+
+  protected function passUserGroupInfo() {
+    $this->assign('user_group_ids', Auth::getUserGroupsId());
+  }
+
   public function home() {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);

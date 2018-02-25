@@ -25,15 +25,74 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top:50px;">
           <div class="sidebar-sticky">
-            <ul class="nav "><!--flex-column-->
+            <ul class="nav flex-column mb-2">
               <li class="nav-item">
                 <a class="nav-link active" href="/dashboard">
                   <span data-feather="home"></span>
                   Dashboard
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="user"></span>
+                  My Account
+                </a>
+              </li>
             </ul>
+
+            {assign name="gid" value="3" /}
+            {in name="gid" value="$user_group_ids"}
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Student Services</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="calendar"></span>
+                  My Appointments
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="search"></span>
+                  View Tutoring Availabilities
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="star"></span>
+                  Rate my tutors
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="share-2"></span>
+                  Refer friends
+                </a>
+              </li>
+            </ul>
+            {/in}
+
+            {assign name="gid" value="2" /}
+            {in name="gid" value="$user_group_ids"}
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Tutor Services</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="calendar"></span>
+                  My Appointments
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="edit"></span>
+                  Edit Availabilities
+                </a>
+              </li>
+            </ul>
+            {/in}
           </div>
         </nav>
 
