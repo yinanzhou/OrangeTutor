@@ -29,6 +29,7 @@ class Auth extends Controller {
     ]);
     if (Cookie::has('email')) {
       $this->assign('prefilledEmail', Cookie::get('email'));
+      $this->assign('checkRememberEmail', true);
     }
     if (!$this->request->isPost()) {
       return view()->code(401);
@@ -90,6 +91,11 @@ class Auth extends Controller {
     }
 
     Auth::setUser($user);
+    if ($this->request->post('remember_email/b', false)) {
+      Cookie::forever('email', $email);
+    } else {
+      Cookie::delete('email');
+    }
     return redirect('https://orangetutor.tk' . $this->request->get('returnTo','/dashboard'));
   }
 
