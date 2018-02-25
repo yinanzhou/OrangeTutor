@@ -255,8 +255,8 @@ class Auth extends Controller {
       return false;
     }
     return !is_null(Membership::where('group_id=:group AND user_id=:user
-        AND (membership_validfrom IS NULL OR membership_validfrom >= NOW())
-        AND (membership_expiration IS NULL OR membership_expiration < NOW())')
+        AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration > NOW())')
         ->bind(['group'=>[$group_id, \PDO::PARAM_INT],'user'=>[$user_id, \PDO::PARAM_INT]])
         ->find());
   }
@@ -279,9 +279,24 @@ class Auth extends Controller {
 
   public static function isAdminExists() {
     return !is_null(Membership::where('group_id=:group
-        AND (membership_validfrom IS NULL OR membership_validfrom >= NOW())
-        AND (membership_expiration IS NULL OR membership_expiration < NOW())')
+        AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration > NOW())')
         ->bind(['group'=>[Auth::ADMIN_GROUP_ID, \PDO::PARAM_INT]])
         ->find());
+  }
+
+  public static function getUserGroupsId($user_id = null) {
+    if(is_null($user_id)) {
+      $user_id = Auth::getUserId();
+    }
+    if(empty($user_id)) {
+      return [];
+    }
+    return Membership::where('user_id=:user
+        AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration > NOW())')
+        ->bind(['user'=>[$user_id, \PDO::PARAM_INT]])
+        ->column('group_id');
+    return [];
   }
 }
