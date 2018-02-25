@@ -66,9 +66,9 @@ class General extends Controller {
       $selfEnrollCards[] = [
         'title' => 'Tutor',
         'description' => 'Use your knowledge power to support students from local communities.',
-        'url' => '',
+        'url' => '/tutor/enroll',
         'link' => 'Enroll',
-        'enabled' => false,
+        'enabled' => true,
       ];
     }
     $this->assign('selfEnrollCards', $selfEnrollCards);
