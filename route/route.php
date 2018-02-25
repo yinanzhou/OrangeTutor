@@ -6,4 +6,6 @@ Route::rule('register', 'portal/auth/register', 'GET|POST');
 Route::get('/logout','portal/auth/logout');
 
 Route::get('dashboard', 'portal/dashboard.general/home');
+
+Route::rule('student/enroll', 'portal/dashboard.student/enroll', 'GET|POST');
 return [];

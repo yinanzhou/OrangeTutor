@@ -48,9 +48,9 @@ class General extends Controller {
       $selfEnrollCards[] = [
         'title' => 'Student',
         'description' => 'Start exploring our tutor offerings, make appointments and more.',
-        'url' => '',
+        'url' => '/student/enroll',
         'link' => 'Enroll',
-        'enabled' => false,
+        'enabled' => true,
       ];
     }
     if (!Auth::isParent()) {
