@@ -20,6 +20,10 @@ class Auth extends Controller {
   const STUDENT_GROUP_ID = 3;
   const PARENT_GROUP_ID = 4;
 
+  /**
+   * Login function handles the user login logic.
+   * @author Yinan Zhou
+   */
   public function login() {
     Cookie::init([
       'prefix' => 'login_',
@@ -99,6 +103,11 @@ class Auth extends Controller {
     return redirect('https://orangetutor.tk' . $this->request->get('returnTo','/dashboard'));
   }
 
+  /**
+   * API endpoint for frontend to query whether the speficific account login
+   * behavior requires reCAPTCHA check.
+   * @author Yinan Zhou
+   */
   public function checkLoginCaptchaRequired() {
     if (!$this->request->isAjax()) {
       return json(['error'=>'Unanthorized request'])->code(403);
@@ -106,11 +115,20 @@ class Auth extends Controller {
     return json($this->isLoginCaptchaRequired($this->request->post('user_email')));
   }
 
+  /**
+   * Is the recaptcha required for the specific account
+   * @return boolean representing whether a reCAPTCHA is required.
+   * @author Yinan Zhou
+   */
   protected function isLoginCaptchaRequired($email) {
     // TODO(yinanzhou): Add security policy here
     return true;
   }
 
+  /**
+   * Register function handles the user registration logic.
+   * @author Yinan Zhou
+   */
   public function register() {
     if (!$this->request->isPost()) {
       return view();
@@ -165,6 +183,11 @@ class Auth extends Controller {
     }
   }
 
+  /**
+   * Connect with Google to check reCAPTCHA result
+   * @author Yinan Zhou
+   * @return boolean representing valid or not
+   */
   private function verifyRecaptcha() {
     $ch = curl_init();
     curl_setopt_array ($ch ,[
@@ -187,6 +210,7 @@ class Auth extends Controller {
 
   /**
    * Set the current user of the session
+   * @author Yinan Zhou
    */
   private static function setUser($user) {
     Session::delete('user');
@@ -195,6 +219,10 @@ class Auth extends Controller {
     Session::set('user.model', $user);
   }
 
+  /**
+   * Log the user out by clearing the user session information
+   * @author Yinan Zhou
+   */
   public function logout() {
     Session::delete('user');
     return redirect('/');
@@ -202,6 +230,7 @@ class Auth extends Controller {
 
   /**
    * Check whether the user is logined.
+   * @author Yinan Zhou
    * @return boolean boolean value represent user login status
    */
   public static function isLogin() {
@@ -240,6 +269,10 @@ class Auth extends Controller {
     return redirect('/login?returnTo=' . urlencode($request->url()));
   }
 
+  /**
+   * Get the current user id
+   * @author Yinan Zhou
+   */
   public static function getUserId() {
     if (!Auth::isLogin()) {
       return null;
@@ -247,6 +280,11 @@ class Auth extends Controller {
     return Session::get('user.user_id');
   }
 
+  /**
+   * Check whether a specific user belongs to a group. If user_id is not
+   * specified, current user's user_id will be used.
+   * @author Yinan Zhou
+   */
   public static function isMemberOf($group_id, $user_id = null) {
     if(is_null($user_id)) {
       $user_id = Auth::getUserId();
@@ -261,22 +299,42 @@ class Auth extends Controller {
         ->find());
   }
 
+  /**
+   * Shortcut function for checking whether user is an administrator
+   * @author Yinan Zhou
+   */
   public static function isAdmin($user_id = null) {
     return Auth::isMemberOf(Auth::ADMIN_GROUP_ID, $user_id);
   }
 
+  /**
+   * Shortcut function for checking whether user is a tutor
+   * @author Yinan Zhou
+   */
   public static function isTutor($user_id = null) {
     return Auth::isMemberOf(Auth::TUTOR_GROUP_ID, $user_id);
   }
 
+  /**
+   * Shortcut function for checking whether user is a student
+   * @author Yinan Zhou
+   */
   public static function isStudent($user_id = null) {
     return Auth::isMemberOf(Auth::STUDENT_GROUP_ID, $user_id);
   }
 
+  /**
+   * Shortcut function for checking whether user is a parent
+   * @author Yinan Zhou
+   */
   public static function isParent($user_id = null) {
     return Auth::isMemberOf(Auth::PARENT_GROUP_ID, $user_id);
   }
 
+  /**
+   * Check whether there exists an admin in the system
+   * @author Yinan Zhou
+   */
   public static function isAdminExists() {
     return !is_null(Membership::where('group_id=:group
         AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
@@ -285,6 +343,10 @@ class Auth extends Controller {
         ->find());
   }
 
+  /**
+   * Get group_id of groups a specific user belongs to
+   * @author Yinan Zhou
+   */
   public static function getUserGroupsId($user_id = null) {
     if(is_null($user_id)) {
       $user_id = Auth::getUserId();
