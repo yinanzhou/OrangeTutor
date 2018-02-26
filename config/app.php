@@ -16,7 +16,7 @@
 return [
 
     // debug mode
-    'app_debug'              => true,
+    'app_debug'              => false,
     // show trace information
     'app_trace'              => false,
     // application status
@@ -58,7 +58,7 @@ return [
     'default_action'         => 'index',
     // default validator name
     'default_validate'       => '',
-    // default empty controller 
+    // default empty controller
     'empty_controller'       => 'Error',
     // suffix for action
     'action_suffix'          => '',
