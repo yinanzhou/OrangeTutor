@@ -2,6 +2,7 @@
 
 namespace app\portal\controller;
 
+use app\common\model\Membership;
 use app\common\model\User;
 use think\Controller;
 use think\facade\Cache;
@@ -14,6 +15,11 @@ use think\validate\ValidateRule;
 
 class Auth extends Controller {
 
+  const ADMIN_GROUP_ID = 1;
+  const TUTOR_GROUP_ID = 2;
+  const STUDENT_GROUP_ID = 3;
+  const PARENT_GROUP_ID = 4;
+
   public function login() {
     Cookie::init([
       'prefix' => 'login_',
@@ -23,6 +29,7 @@ class Auth extends Controller {
     ]);
     if (Cookie::has('email')) {
       $this->assign('prefilledEmail', Cookie::get('email'));
+      $this->assign('checkRememberEmail', true);
     }
     if (!$this->request->isPost()) {
       return view()->code(401);
@@ -83,7 +90,12 @@ class Auth extends Controller {
       return view()->code(401);
     }
 
-    Auth::setUser($user->user_id);
+    Auth::setUser($user);
+    if ($this->request->post('remember_email/b', false)) {
+      Cookie::forever('email', $email);
+    } else {
+      Cookie::delete('email');
+    }
     return redirect('https://orangetutor.tk' . $this->request->get('returnTo','/dashboard'));
   }
 
@@ -144,7 +156,7 @@ class Auth extends Controller {
     $data['user_password'] = password_hash($data['user_password'], PASSWORD_DEFAULT);
     $user = new User;
     if($user->allowField(['user_firstname','user_lastname','user_middlename','user_email','user_password'])->save($data) > 0) {
-      Auth::setUser($user->user_id);
+      Auth::setUser($user);
       return redirect('/dashboard');
     } else {
       $this->assign('prefilledData', $data);
@@ -176,14 +188,15 @@ class Auth extends Controller {
   /**
    * Set the current user of the session
    */
-  private static function setUser($user_id) {
-    Session::clear('user');
-    Session::set('user_id', $user_id, 'user');
-    Session::set('user_login_token', Auth::getUserLoginToken($user_id), 'user');
+  private static function setUser($user) {
+    Session::delete('user');
+    Session::set('user.user_id', $user->user_id);
+    Session::set('user.user_login_token', Auth::getUserLoginToken($user->user_id));
+    Session::set('user.model', $user);
   }
 
   public function logout() {
-    Session::clear('user');
+    Session::delete('user');
     return redirect('/');
   }
 
@@ -192,10 +205,10 @@ class Auth extends Controller {
    * @return boolean boolean value represent user login status
    */
   public static function isLogin() {
-    if(!Session::has('user_id','user') || !Session::has('user_login_token','user')) {
+    if(!Session::has('user.user_id') || !Session::has('user.user_login_token')) {
       return false;
     }
-    if(Session::get('user_login_token','user')!==Auth::getUserLoginToken(Session::get('user_id','user'))) {
+    if(Session::get('user.user_login_token')!==Auth::getUserLoginToken(Session::get('user.user_id'))) {
       return false;
     }
     return true;
@@ -219,7 +232,71 @@ class Auth extends Controller {
     return Cache::get('user_login_token:' . $user_id);
   }
 
+  /**
+   * Return the redirect response object to redirect user to login pages
+   * @author Yinan Zhou
+   */
   public static function redirectToLogin($request) {
     return redirect('/login?returnTo=' . urlencode($request->url()));
+  }
+
+  public static function getUserId() {
+    if (!Auth::isLogin()) {
+      return null;
+    }
+    return Session::get('user.user_id');
+  }
+
+  public static function isMemberOf($group_id, $user_id = null) {
+    if(is_null($user_id)) {
+      $user_id = Auth::getUserId();
+    }
+    if(empty($group_id) || empty($user_id)) {
+      return false;
+    }
+    return !is_null(Membership::where('group_id=:group AND user_id=:user
+        AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration > NOW())')
+        ->bind(['group'=>[$group_id, \PDO::PARAM_INT],'user'=>[$user_id, \PDO::PARAM_INT]])
+        ->find());
+  }
+
+  public static function isAdmin($user_id = null) {
+    return Auth::isMemberOf(Auth::ADMIN_GROUP_ID, $user_id);
+  }
+
+  public static function isTutor($user_id = null) {
+    return Auth::isMemberOf(Auth::TUTOR_GROUP_ID, $user_id);
+  }
+
+  public static function isStudent($user_id = null) {
+    return Auth::isMemberOf(Auth::STUDENT_GROUP_ID, $user_id);
+  }
+
+  public static function isParent($user_id = null) {
+    return Auth::isMemberOf(Auth::PARENT_GROUP_ID, $user_id);
+  }
+
+  public static function isAdminExists() {
+    return !is_null(Membership::where('group_id=:group
+        AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration > NOW())')
+        ->bind(['group'=>[Auth::ADMIN_GROUP_ID, \PDO::PARAM_INT]])
+        ->find());
+  }
+
+  public static function getUserGroupsId($user_id = null) {
+    if(is_null($user_id)) {
+      $user_id = Auth::getUserId();
+    }
+    if(empty($user_id)) {
+      return [];
+    }
+    return Membership::where('user_id=:user
+        AND (membership_validfrom IS NULL OR membership_validfrom <= NOW())
+        AND (membership_expiration IS NULL OR membership_expiration > NOW())')
+        ->bind(['user'=>[$user_id, \PDO::PARAM_INT]])
+        ->column('group_id');
+    return [];
   }
 }

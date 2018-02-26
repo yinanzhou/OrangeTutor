@@ -1,0 +1,60 @@
+{assign name="active-menu" value="dashboard" /}
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Dashboard{/block}
+{block name="main"}
+<div class="jumbotron">
+  <div class="container-fluid">
+    <h1 class="display-4">Welcome to OrangeTutor</h1>
+    <p class="lead">Good
+      {php}
+        $hour = date('G');
+        if($hour <=3 || $hour >= 20){echo 'Night';}
+        elseif($hour < 12){echo 'Morning';}
+        elseif($hour < 17){echo 'Afternoon';}
+        else{echo 'Evening';}
+      {/php}
+      , {$Think.session.user.model->user_firstname}!</p>
+  </div>
+</div>
+<h3 class="border-bottom">Education News</h3>
+<div id="educationNewsSlides" class="carousel slide" data-ride="carousel" data-interval="5000" data-keyboard="false" data-pause="false">
+  <ol class="carousel-indicators">
+    {foreach $education_news as $k=>$news }
+      <li data-target="#educationNewsSlides" data-slide-to="{$k}"></li>
+    {/foreach}
+  </ol>
+  <div class="carousel-inner">
+    {foreach $education_news as $k=>$news }
+    <div class="carousel-item {eq name="k" value="0"}active{/eq}">
+      <img class="d-block w-100" src="{$news.imgUrl}" style="max-height: 340px;">
+      <div class="carousel-caption d-none d-md-block">
+        {present name="news.title"}<h4>{$news.title}</h4>{/present}
+        {present name="news.title"}<p>{$news.description}</p>{/present}
+      </div>
+    </div>
+    {/foreach}
+  </div>
+  <a class="carousel-control-prev" href="#educationNewsSlides" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#educationNewsSlides" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+{if count($selfEnrollCards) > 0}
+<h3 class="border-bottom mt-4">Self Enrollment</h3>
+<div class="row">
+  {foreach $selfEnrollCards as $k=>$card }
+  <div class="card m-2" style="width: 15rem;">
+    <div class="card-body">
+      <h5 class="card-title">{$card.title}</h5>
+      <p class="card-text">{$card.description|raw}</p>
+      <a href="{$card.url}" class="btn btn-sm btn-primary {if $card.enabled == false}disabled{/if}">{$card.link}</a>
+    </div>
+  </div>
+  {/foreach}
+</div>
+{/if}
+{/block}
