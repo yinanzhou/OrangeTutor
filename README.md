@@ -15,6 +15,15 @@
  * MySQL or MariaDB
  * Google reCAPTCHA (https://www.google.com/recaptcha/)
 
+## Brief Overview
+ * Controllers are placed under `application/portal/Controller`. They handle service logic.
+ * Data Models are placed under `application/common/model`. They are entities associated with database table.
+ * Views are placed under `application/portal/view`. They are the web interface for client browsers.
+ * Config files are placed under `config`.
+ * Routing definitions are placed under `route`. They decided which controller should a specific url being mapped to.
+ * `public` folder holds files that are publically directly accessible.
+ * `runtime` folder holds cache files during runtime
+
 ## Installation
 
 We provides two options for you to try out our system.
