@@ -13,4 +13,5 @@ Route::get('refer', 'portal/dashboard.student/refer');
 Route::get('student/appointments', 'portal/dashboard.student/appointments');
 
 Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
+Route::get('tutor/appointments', 'portal/dashboard.tutor/appointments');
 return [];

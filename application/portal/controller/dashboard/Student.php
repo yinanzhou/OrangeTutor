@@ -66,7 +66,7 @@ class Student extends Controller {
         ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
         ->order(['a.appointment_starttime','a.appointment_endtime'])
         ->select());
-    $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment now.</td></tr>');
+    $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment.</td></tr>');
     return view();
   }
 }
