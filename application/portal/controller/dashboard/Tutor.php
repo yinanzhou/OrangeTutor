@@ -17,6 +17,7 @@ class Tutor extends Controller {
   }
 
   public function enroll() {
+    $this->assign('active_menu','');
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
     }

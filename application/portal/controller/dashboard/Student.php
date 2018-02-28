@@ -16,7 +16,14 @@ class Student extends Controller {
     $this->assign('user_group_ids', Auth::getUserGroupsId());
   }
 
+  protected function checkStudentMembership() {
+    if (!Auth::isStudent()) {
+      abort(403);
+    }
+  }
+
   public function enroll() {
+    $this->assign('active_menu','');
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
     }
@@ -40,6 +47,12 @@ class Student extends Controller {
     // Refresh the user group information passed to view.
     $this->assign('user_group_ids', Auth::getUserGroupsId());
     $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted student access to the system.</div>You should able to see the student service menu on the left.');
+    return view();
+  }
+
+  public function refer() {
+    $this->assign('active_menu','student-refer');
+    $this->checkStudentMembership();
     return view();
   }
 }
