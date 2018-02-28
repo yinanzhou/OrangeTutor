@@ -10,6 +10,7 @@ Route::get('dashboard/profile', 'portal/dashboard.general/profile');
 
 Route::rule('student/enroll', 'portal/dashboard.student/enroll', 'GET|POST');
 Route::get('refer', 'portal/dashboard.student/refer');
+Route::get('student/appointments', 'portal/dashboard.student/appointments');
 
 Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
 return [];

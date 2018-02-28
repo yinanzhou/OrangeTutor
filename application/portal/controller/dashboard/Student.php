@@ -55,4 +55,18 @@ class Student extends Controller {
     $this->checkStudentMembership();
     return view();
   }
+
+  public function appointments() {
+    $this->assign('active_menu','student-appointments');
+    $this->checkStudentMembership();
+    $this->assign('appointments',db('appointment')
+        ->alias('a')
+        ->where('a.student_user_id', Auth::getUserId())
+        ->join('user t', 'a.tutor_user_id = t.user_id')
+        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
+        ->order(['a.appointment_starttime','a.appointment_endtime'])
+        ->select());
+    $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment now.</td></tr>');
+    return view();
+  }
 }
