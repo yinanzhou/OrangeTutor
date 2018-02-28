@@ -16,6 +16,7 @@ class General extends Controller {
   }
 
   public function home() {
+    $this->assign('active_menu','dashboard');
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
     }
