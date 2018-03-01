@@ -40,6 +40,21 @@
               </li>
             </ul>
 
+            {assign name="gid" value="1" /}
+            {in name="gid" value="$user_group_ids"}
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>System Administator Operations</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link {eq name="active_menu" value="admin-users"}active{/eq}" href="/admin/users">
+                  <span data-feather="users"></span>
+                  Manage Users
+                </a>
+              </li>
+            </ul>
+            {/in}
+
             {assign name="gid" value="3" /}
             {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

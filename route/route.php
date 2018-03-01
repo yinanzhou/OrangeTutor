@@ -16,4 +16,7 @@ Route::post('student/pay/paypal', 'portal/dashboard.student/redirectToPaypal');
 
 Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
 Route::get('tutor/appointments', 'portal/dashboard.tutor/appointments');
+
+Route::get('admin/users', 'portal/dashboard.admin/users');
+
 return [];
