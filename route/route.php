@@ -13,6 +13,7 @@ Route::get('refer', 'portal/dashboard.student/refer');
 Route::get('student/appointments', 'portal/dashboard.student/appointments');
 Route::get('student/pay', 'portal/dashboard.student/payment');
 Route::post('student/pay/paypal', 'portal/dashboard.student/redirectToPaypal');
+Route::get('student/availabilities', 'portal/dashboard.student/availabilities');
 
 Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
 Route::get('tutor/appointments', 'portal/dashboard.tutor/appointments');

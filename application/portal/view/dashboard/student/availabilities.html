@@ -1,0 +1,27 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Tutoring Availabilities{/block}
+{block name="main"}
+<h3>Available Tutoring Slots</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Tutor Name</th>
+      <th scope="col">Tutor Email</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {volist name="availabilities" id="a" empty="$empty_availability_message" }
+    <tr>
+      <td class="align-middle">{$a.tutor_firstname}{notempty name="a.tutor_middlename"}&nbsp;{$a.tutor_middlename|substr=0,1}{/notempty}&nbsp;{$a.tutor_lastname}</td>
+      <td class="align-middle">{$a.tutor_email}</td>
+      <td class="align-middle">{:date('D M j G:i T Y',strtotime($a.appointment_starttime))}</td>
+      <td class="align-middle">{:date('D M j G:i T Y',strtotime($a.appointment_endtime))}</td>
+      <td class="align-middle"></td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+{/block}
