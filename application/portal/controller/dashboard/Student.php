@@ -55,4 +55,43 @@ class Student extends Controller {
     $this->checkStudentMembership();
     return view();
   }
+
+  public function appointments() {
+    $this->assign('active_menu','student-appointments');
+    $this->checkStudentMembership();
+    $this->assign('appointments',db('appointment')
+        ->alias('a')
+        ->where('a.student_user_id', Auth::getUserId())
+        ->join('user t', 'a.tutor_user_id = t.user_id')
+        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_id as tutor_user_id,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
+        ->order(['a.appointment_starttime','a.appointment_endtime'])
+        ->select());
+    $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment.</td></tr>');
+    return view();
+  }
+
+  public function payment() {
+    $this->assign('active_menu','student-payment');
+    $this->checkStudentMembership();
+    return view();
+  }
+
+  public function redirectToPaypal() {
+    $this->checkStudentMembership();
+    return redirect('https://paypal.me/yinan/' . input('post.amount/f') . 'USD');
+  }
+
+  public function availabilities() {
+    $this->assign('active_menu','student-availabilities');
+    $this->checkStudentMembership();
+    $this->assign('availabilities',db('appointment')
+        ->alias('a')
+        ->where('a.student_user_id', null)
+        ->join('user t', 'a.tutor_user_id = t.user_id')
+        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_id as tutor_user_id,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
+        ->order(['a.appointment_starttime','a.appointment_endtime'])
+        ->select());
+    $this->assign('empty_availability_message', '<tr><td colspan="6">There\'s no available tutoring sessions.</td></tr>');
+    return view();
+  }
 }

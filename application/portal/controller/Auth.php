@@ -86,7 +86,7 @@ class Auth extends Controller {
     // In case PHP changes its hashing algo in the future
     if (password_needs_rehash($user->user_password, PASSWORD_DEFAULT)) {
       $user->user_password = password_hash($this->request->post('user_password'), PASSWORD_DEFAULT);
-      $user->save(); // Using autocomplete to rehash the password
+      $user->save();
     }
 
     if (!$user->user_enabled) {
@@ -259,6 +259,10 @@ class Auth extends Controller {
       Cache::tag('user_login_token')->set('user_login_token:' . $user_id, uniqid());
     }
     return Cache::get('user_login_token:' . $user_id);
+  }
+
+  public static function resetUserLoginToken($user_id) {
+    Cache::tag('user_login_token')->set('user_login_token:' . $user_id, uniqid());
   }
 
   /**

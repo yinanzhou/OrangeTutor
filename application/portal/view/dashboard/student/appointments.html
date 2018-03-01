@@ -1,0 +1,29 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}My Appointments{/block}
+{block name="main"}
+<h3>My Appointments</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Appointment ID</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col">Tutor Name</th>
+      <th scope="col">Tutor Email</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {volist name="appointments" id="a" empty="$empty_appointment_message" }
+    <tr>
+      <th scope="row">{$a.appointment_id}</th>
+      <td>{$a.appointment_starttime}</td>
+      <td>{$a.appointment_endtime}</td>
+      <td><a href="/tutor/{$a.tutor_user_id}" target="_blank">{$a.tutor_firstname}{notempty name="a.tutor_middlename"}&nbsp;{$a.tutor_middlename|substr=0,1}{/notempty}&nbsp;{$a.tutor_lastname}</a></td>
+      <td>{$a.tutor_email}</td>
+      <td></td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+{/block}
