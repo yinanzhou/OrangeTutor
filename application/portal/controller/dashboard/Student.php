@@ -69,4 +69,15 @@ class Student extends Controller {
     $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment.</td></tr>');
     return view();
   }
+
+  public function payment() {
+    $this->assign('active_menu','student-payment');
+    $this->checkStudentMembership();
+    return view();
+  }
+
+  public function redirectToPaypal() {
+    $this->checkStudentMembership();
+    return redirect('https://paypal.me/yinan/' . input('post.amount/f') . 'USD');
+  }
 }
