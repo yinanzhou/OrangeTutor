@@ -109,4 +109,15 @@ class Student extends Controller {
     $appointment->save();
     return json(['message'=>'Transaction succeeds.', 'success'=>true]);
   }
+
+  public function removeAppointment() {
+    $this->checkStudentMembership();
+    $appointment = Appointment::where('appointment_id', input('post.appointment_id/d'))->where('student_user_id', Auth::getUserId())->find();
+    if ($appointment == null) {
+      return json('The appointment does not exists.');
+    }
+    $appointment->student_user_id = null;
+    $appointment->save();
+    return json('The appointment is now cancelled.');
+  }
 }
