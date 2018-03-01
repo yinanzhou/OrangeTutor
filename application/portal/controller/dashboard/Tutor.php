@@ -129,4 +129,18 @@ class Tutor extends Controller {
         ->select());
     return view();
   }
+
+  public function availabilities() {
+    $this->assign('active_menu','tutor-availabilities');
+    $this->checkTutorMembership();
+    $this->assign('availabilities',db('appointment')
+        ->alias('a')
+        ->where('a.tutor_user_id', Auth::getUserId())
+        ->whereNull('a.student_user_id')
+        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime')
+        ->order(['a.appointment_starttime','a.appointment_endtime'])
+        ->select());
+    $this->assign('empty_availability_message', '<tr><td colspan="6">You do not have any availability.</td></tr>');
+    return view();
+  }
 }
