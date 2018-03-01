@@ -17,6 +17,9 @@ Route::get('student/availabilities', 'portal/dashboard.student/availabilities');
 
 Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
 Route::get('tutor/appointments', 'portal/dashboard.tutor/appointments');
+Route::get('tutor/subjects', 'portal/dashboard.tutor/subjects');
+Route::post('tutor/subjects/add/:subject_code', 'portal/dashboard.tutor/addSubject');
+Route::post('tutor/subjects/remove/:subject_code', 'portal/dashboard.tutor/removeSubject');
 
 Route::rule('admin/enroll', 'portal/dashboard.admin/enroll', 'GET|POST');
 Route::get('admin/users', 'portal/dashboard.admin/users');

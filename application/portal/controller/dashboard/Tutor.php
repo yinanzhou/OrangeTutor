@@ -3,6 +3,8 @@
 namespace app\portal\controller\dashboard;
 
 use app\common\model\Membership;
+use app\common\model\TutorSubject;
+use app\common\model\TutorSubjectMastery;
 use app\portal\controller\Auth;
 use think\Controller;
 
@@ -63,5 +65,42 @@ class Tutor extends Controller {
         ->select());
     $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment.</td></tr>');
     return view();
+  }
+
+  public function subjects() {
+    $uid = Auth::getUserId();
+    $this->assign('active_menu','tutor-subjects');
+    $this->checkTutorMembership();
+    $this->assign('subjects',db('tutor_subject')
+        ->field('tutor_subject_code as code,tutor_subject_name as name')
+        ->order('tutor_subject_code')
+        ->select());
+    $this->assign('masteries', TutorSubjectMastery::where('user_id', $uid)->column('tutor_subject_code'));
+    return view();
+  }
+
+  public function addSubject($subject_code) {
+    $this->checkTutorMembership();
+    $uid = Auth::getUserId();
+    TutorSubjectMastery::where('user_id', $uid)
+                ->where('tutor_subject_code', $subject_code)
+                ->delete();
+    $t = new TutorSubjectMastery;
+    $t->user_id = $uid;
+    $t->tutor_subject_code = $subject_code;
+    if(TutorSubject::find($subject_code) == null) {
+      return json('Transaction failed.', 200);
+    }
+    $t->save();
+    return json('Transaction succeeds.', 200);
+  }
+
+  public function removeSubject($subject_code) {
+    $this->checkTutorMembership();
+    $uid = Auth::getUserId();
+    TutorSubjectMastery::where('user_id', $uid)
+                ->where('tutor_subject_code', $subject_code)
+                ->delete();
+    return json('Transaction succeeds.', 200);
   }
 }
