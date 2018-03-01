@@ -17,7 +17,10 @@ Route::post('student/pay/paypal', 'portal/dashboard.student/redirectToPaypal');
 Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
 Route::get('tutor/appointments', 'portal/dashboard.tutor/appointments');
 
+Route::rule('admin/enroll', 'portal/dashboard.admin/enroll', 'GET|POST');
 Route::get('admin/users', 'portal/dashboard.admin/users');
 Route::post('admin/users/set_user_status', 'portal/dashboard.admin/setUserStatus');
+Route::get('admin/user/:user_id', 'portal/dashboard.admin/user');
+Route::post('/admin/users/remove_user_membership', 'portal/dashboard.admin/removeUserMembership');
 
 return [];

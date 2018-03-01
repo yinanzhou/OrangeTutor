@@ -40,9 +40,9 @@ class General extends Controller {
       $selfEnrollCards[] = [
         'title' => 'Admin',
         'description' => 'The system currently has no administrator, you can set yourself as one.<br /><b>This option will be disabled for all user once there exists an administator.</b>',
-        'url' => '',
+        'url' => '/admin/enroll',
         'link' => 'Add Admin Privilege',
-        'enabled' => false,
+        'enabled' => true,
       ];
     }
     if (!Auth::isStudent()) {

@@ -23,30 +23,12 @@
       <td class="align-middle">{$u.user_lastname}</td>
       <td class="align-middle">{$u.user_email}</td>
       <td class="align-middle table-{eq name="u.user_enabled" value="1"}success{else /}danger{/eq}">{eq name="u.user_enabled" value="1"}Enabled{else /}Disabled{/eq}</td>
-      <td class="align-middle">{eq name="u.user_enabled" value="1"}<button type="button" class="btn btn-danger btn-sm" onclick="setUserStatus({$u.user_id},0)">disable</button>
-          {else /}<button type="button" class="btn btn-success btn-sm" onclick="setUserStatus({$u.user_id},1)">enable</button>{/eq}</td>
+      <td class="align-middle">{eq name="u.user_enabled" value="1"}<button type="button" class="btn btn-danger btn-sm" onclick="setUserStatus({$u.user_id},0)">Disable</button>
+          {else /}<button type="button" class="btn btn-success btn-sm" onclick="setUserStatus({$u.user_id},1)">Enable</button>{/eq}
+        &nbsp;<a href="/admin/user/{$u.user_id}">Details</a></td>
     </tr>
     {/volist}
   </tbody>
 </table>
-<script>
-  function setUserStatus(uid, enabled) {
-    if (!confirm('Confirm to ' + (enabled?"enable":"disable") + ' user ' + uid)) {
-      return;
-    }
-    $.ajax({
-      type: "POST",
-      url: '/admin/users/set_user_status',
-      data: {
-        user_id: uid,
-        user_enabled: enabled
-      },
-      success: function(data) {
-        alert(data);
-        location.reload();
-      },
-      dataType: "json"
-    });
-  }
-</script>
+<script src="/static/admin.js"></script>
 {/block}
