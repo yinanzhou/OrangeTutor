@@ -11,6 +11,7 @@ Route::get('dashboard/profile', 'portal/dashboard.general/profile');
 Route::rule('student/enroll', 'portal/dashboard.student/enroll', 'GET|POST');
 Route::get('refer', 'portal/dashboard.student/refer');
 Route::get('student/appointments', 'portal/dashboard.student/appointments');
+Route::post('student/appointments/add', 'portal/dashboard.student/addAppointment');
 Route::get('student/pay', 'portal/dashboard.student/payment');
 Route::post('student/pay/paypal', 'portal/dashboard.student/redirectToPaypal');
 Route::get('student/availabilities', 'portal/dashboard.student/availabilities');

@@ -2,6 +2,7 @@
 
 namespace app\portal\controller\dashboard;
 
+use app\common\model\Appointment;
 use app\common\model\Membership;
 use app\portal\controller\Auth;
 use think\Controller;
@@ -93,5 +94,19 @@ class Student extends Controller {
         ->select());
     $this->assign('empty_availability_message', '<tr><td colspan="6">There\'s no available tutoring sessions.</td></tr>');
     return view();
+  }
+
+  public function addAppointment() {
+    $this->checkStudentMembership();
+    $appointment = Appointment::find(input('post.appointment_id/d'));
+    if ($appointment == null) {
+      return json(['message'=>'The section requested does not exist.', 'success'=>false]);
+    }
+    if (!is_null($appointment->student_user_id)) {
+      return json(['message'=>'The spot has been taken.', 'success'=>false]);
+    }
+    $appointment->student_user_id = Auth::getUserId();
+    $appointment->save();
+    return json(['message'=>'Transaction succeeds.', 'success'=>true]);
   }
 }
