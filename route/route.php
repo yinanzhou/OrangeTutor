@@ -18,5 +18,6 @@ Route::rule('tutor/enroll', 'portal/dashboard.tutor/enroll', 'GET|POST');
 Route::get('tutor/appointments', 'portal/dashboard.tutor/appointments');
 
 Route::get('admin/users', 'portal/dashboard.admin/users');
+Route::post('admin/users/set_user_status', 'portal/dashboard.admin/setUserStatus');
 
 return [];

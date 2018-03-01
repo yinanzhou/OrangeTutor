@@ -261,6 +261,10 @@ class Auth extends Controller {
     return Cache::get('user_login_token:' . $user_id);
   }
 
+  public static function resetUserLoginToken($user_id) {
+    Cache::tag('user_login_token')->set('user_login_token:' . $user_id, uniqid());
+  }
+
   /**
    * Return the redirect response object to redirect user to login pages
    * @author Yinan Zhou
