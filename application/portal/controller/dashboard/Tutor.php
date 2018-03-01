@@ -5,6 +5,7 @@ namespace app\portal\controller\dashboard;
 use app\common\model\Membership;
 use app\common\model\TutorSubject;
 use app\common\model\TutorSubjectMastery;
+use app\common\model\User;
 use app\portal\controller\Auth;
 use think\Controller;
 
@@ -102,5 +103,30 @@ class Tutor extends Controller {
                 ->where('tutor_subject_code', $subject_code)
                 ->delete();
     return json('Transaction succeeds.', 200);
+  }
+
+  public function profile($user_id) {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $tutor = User::find($user_id);
+    if ($tutor == null) {
+      abort(404);
+    }
+    if (!Auth::isTutor($tutor->user_id)) {
+      abort(404);
+    }
+    $this->assign('t', $tutor);
+    $uid = Auth::getUserId();
+    $this->assign('active_menu','tutor-subjects');
+    $this->checkTutorMembership();
+    $this->assign('subjects',db('tutor_subject_mastery')
+        ->alias('sm')
+        ->where('sm.user_id', $tutor->user_id)
+        ->join('tutor_subject ts','sm.tutor_subject_code=ts.tutor_subject_code','LEFT')
+        ->field('ts.tutor_subject_code as code,ts.tutor_subject_name as name')
+        ->order('ts.tutor_subject_code')
+        ->select());
+    return view();
   }
 }

@@ -63,7 +63,7 @@ class Student extends Controller {
         ->alias('a')
         ->where('a.student_user_id', Auth::getUserId())
         ->join('user t', 'a.tutor_user_id = t.user_id')
-        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
+        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_id as tutor_user_id,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
         ->order(['a.appointment_starttime','a.appointment_endtime'])
         ->select());
     $this->assign('empty_appointment_message', '<tr><td colspan="6">You do not have any appointment.</td></tr>');
@@ -88,7 +88,7 @@ class Student extends Controller {
         ->alias('a')
         ->where('a.student_user_id', null)
         ->join('user t', 'a.tutor_user_id = t.user_id')
-        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
+        ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime,t.user_id as tutor_user_id,t.user_firstname as tutor_firstname,t.user_middlename as tutor_middlename,t.user_lastname as tutor_lastname,t.user_email as tutor_email')
         ->order(['a.appointment_starttime','a.appointment_endtime'])
         ->select());
     $this->assign('empty_availability_message', '<tr><td colspan="6">There\'s no available tutoring sessions.</td></tr>');

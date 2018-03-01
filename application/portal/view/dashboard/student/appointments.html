@@ -19,7 +19,7 @@
       <th scope="row">{$a.appointment_id}</th>
       <td>{$a.appointment_starttime}</td>
       <td>{$a.appointment_endtime}</td>
-      <td>{$a.tutor_firstname}{notempty name="a.tutor_middlename"}&nbsp;{$a.tutor_middlename|substr=0,1}{/notempty}&nbsp;{$a.tutor_lastname}</td>
+      <td><a href="/tutor/{$a.tutor_user_id}" target="_blank">{$a.tutor_firstname}{notempty name="a.tutor_middlename"}&nbsp;{$a.tutor_middlename|substr=0,1}{/notempty}&nbsp;{$a.tutor_lastname}</a></td>
       <td>{$a.tutor_email}</td>
       <td></td>
     </tr>
