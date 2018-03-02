@@ -18,15 +18,15 @@ class User extends Model
     return $this->hasMany('Membership');
   }
 
-  protected function setUserFirstNameAttr($value) {//returns the first name without the white space
+  protected function setUserFirstNameAttr($value) {//filters out the whitespace when first name is updated
     return trim($value);
   }
 
-  protected function setUserLastNameAttr($value) {//returns the last name without the white space
+  protected function setUserLastNameAttr($value) {//filters out the whitespace when last name is updated
     return trim($value);
   }
 
-  protected function setUserMiddleNameAttr($value) {//returns the middle name without the white space
+  protected function setUserMiddleNameAttr($value) {//filters out the whitespace when middle name is updated
     return trim($value);
   }
 
