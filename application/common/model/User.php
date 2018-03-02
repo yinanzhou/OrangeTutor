@@ -30,7 +30,7 @@ class User extends Model
     return trim($value);
   }
 
-  protected function setUserEmailAttr($value) {//returns the email in all lower case letters
+  protected function setUserEmailAttr($value) {//converts email to lowercase when updated
     return strtolower($value);
   }
 }
