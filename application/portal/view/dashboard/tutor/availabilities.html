@@ -18,4 +18,17 @@
     {/volist}
   </tbody>
 </table>
+<h4 class="mt-3">Add a new slot</h4>
+<form method="POST">
+  <div class="form-group">
+    <label for="input-starttime">Start Time</label>
+    <input type="text" class="form-control" id="input-starttime" name="starttime" required="required">
+  </div>
+  <div class="form-group">
+    <label for="input-endtime">End Time</label>
+    <input type="text" class="form-control" id="input-endtime" name="endtime" required="required">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script>{notempty name="alert"}alert({$alert|raw|json_encode});{/notempty}</script>
 {/block}

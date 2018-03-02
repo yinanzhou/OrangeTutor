@@ -2,6 +2,7 @@
 
 namespace app\portal\controller\dashboard;
 
+use app\common\model\Appointment;
 use app\common\model\Membership;
 use app\common\model\TutorSubject;
 use app\common\model\TutorSubjectMastery;
@@ -132,10 +133,32 @@ class Tutor extends Controller {
 
   public function availabilities() {
     $this->assign('active_menu','tutor-availabilities');
+    $uid = Auth::getUserId();
     $this->checkTutorMembership();
+    if($this->request->isPost()) {
+      $starttime = strtotime(input('post.starttime'));
+      $endtime = strtotime(input('post.endtime'));
+      $error_message = "";
+      if($starttime == false) {
+        $error_message .= "Cannot parse the start time. ";
+      }
+      if($endtime == false) {
+        $error_message .= "Cannot parse the end time. ";
+      }
+      if(empty($error_message)) {
+        $appointment = new Appointment;
+        $appointment->tutor_user_id = $uid;
+        $appointment->appointment_starttime = date('Y-m-d H:i:s', $starttime);
+        $appointment->appointment_endtime = date('Y-m-d H:i:s', $endtime);
+        $appointment->save();
+        $this->assign('alert','Transaction succeeds.');
+      } else {
+        $this->assign('alert',$error_message);
+      }
+    }
     $this->assign('availabilities',db('appointment')
         ->alias('a')
-        ->where('a.tutor_user_id', Auth::getUserId())
+        ->where('a.tutor_user_id', $uid)
         ->whereNull('a.student_user_id')
         ->field('a.appointment_id as appointment_id,a.appointment_starttime as appointment_starttime,a.appointment_endtime as appointment_endtime')
         ->order(['a.appointment_starttime','a.appointment_endtime'])
