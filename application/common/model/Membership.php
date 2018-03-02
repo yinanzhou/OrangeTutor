@@ -8,8 +8,8 @@ class Membership extends Model
 {
   protected $pk = 'user_id,group_id';
   protected $type = [
-    'membership_validfrom' => 'datetime',//sets the membership begining time 
-    'membership_expiration' => 'datetime',//sets the membership end time
+    'membership_validfrom' => 'datetime',//forces datatype to be a datetime 
+    'membership_expiration' => 'datetime',//forces datatype to be a datetime
   ];
 
   public function user() {
