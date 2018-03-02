@@ -33,7 +33,7 @@ class Auth extends Controller {
     ]);
     if (Cookie::has('email')) {
       $this->assign('prefilledEmail', Cookie::get('email'));//assigns the email filled in by the user to the cookie
-      $this->assign('checkRememberEmail', true);//lets the system remeber the email
+      $this->assign('checkRememberEmail', true);//retains checkmark for remember my email
     }
     if (!$this->request->isPost()) {
       return view()->code(401);
@@ -41,12 +41,13 @@ class Auth extends Controller {
 
     $email = $this->request->post('user_email','invalid',FILTER_VALIDATE_EMAIL);//posts that the email is invalid 
     $this->assign('prefilledEmail', $this->request->post('user_email'));//assigns the valid email
-
-    $rules = [//setting the rules for the email
+    //setting the rules for the email
+    $rules = [
       'user_email' => 'require|email|token:login',
       'user_password' => 'require'
     ];
-    $errorMessages = [//the various error messages a user could recieve from the inputs for email and password
+    //the various error messages a user could recieve from the inputs for email and password
+    $errorMessages = [
       'user_email.require' => 'Email is required.',
       'user_email.email' => 'The email address is invalid.',
       'user_password.require' => 'Password is required.',
@@ -68,7 +69,7 @@ class Auth extends Controller {
       $this->assign('alert', 'Cannot validate ReCaptcha response, please try again.');
       return view()->code(400);
     }
-    $user = User::where('user_email', $email)->find();//finds the email in the system
+    $user = User::where('user_email', $email)->find();//finds user with the given email in the system
     $emailOrPasswordError = false;
 
     if ($user === null) { // No such user
@@ -134,14 +135,16 @@ class Auth extends Controller {
       return view();
     }
     $data = $this->request->post();
-    $rules = [//sets rules for registration
+    //sets rules for registration
+    $rules = [
       'user_firstname' => 'require|max:40',
       'user_lastname' => 'require|max:40',
       'user_middlename' => 'max:40',
       'user_email' => 'require|email|unique:user',
       'user_password' => 'require|length:8,24|token:register'
     ];
-    $errorMessages = [//sets error messages for regisration
+    //sets error messages for regisration
+    $errorMessages = [
       'user_firstname.require' => 'First name is required.',
       'user_firstname.max' => 'First name must be within 40 characters.',
       'user_lastname.require' => 'Last name is required.',
@@ -158,7 +161,7 @@ class Auth extends Controller {
     $validationResult = $validate->batch(true)->check($data);
     if (!$validationResult) {//if the entered value doesnt work then return error message
       $errorMessage = "Registration cannot be completed due to the following error(s):";
-      foreach($validate->getError() as $field => $message) {//choose the correct error message
+      foreach($validate->getError() as $field => $message) {//display the correct error messages
         unset($data[$field]);
         $errorMessage = $errorMessage . "\n" . $message;
       }
