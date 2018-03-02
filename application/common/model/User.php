@@ -18,19 +18,19 @@ class User extends Model
     return $this->hasMany('Membership');
   }
 
-  protected function setUserFirstNameAttr($value) {
+  protected function setUserFirstNameAttr($value) {//returns the first name without the white space
     return trim($value);
   }
 
-  protected function setUserLastNameAttr($value) {
+  protected function setUserLastNameAttr($value) {//returns the last name without the white space
     return trim($value);
   }
 
-  protected function setUserMiddleNameAttr($value) {
+  protected function setUserMiddleNameAttr($value) {//returns the middle name without the white space
     return trim($value);
   }
 
-  protected function setUserEmailAttr($value) {
+  protected function setUserEmailAttr($value) {//returns the email in all lower case letters
     return strtolower($value);
   }
 }
