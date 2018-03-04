@@ -16,14 +16,30 @@
   <tbody>
     {volist name="appointments" id="a" empty="$empty_appointment_message" }
     <tr>
-      <th scope="row">{$a.appointment_id}</th>
-      <td>{$a.appointment_starttime}</td>
-      <td>{$a.appointment_endtime}</td>
-      <td><a href="/tutor/{$a.tutor_user_id}" target="_blank">{$a.tutor_firstname}{notempty name="a.tutor_middlename"}&nbsp;{$a.tutor_middlename|substr=0,1}{/notempty}&nbsp;{$a.tutor_lastname}</a></td>
-      <td>{$a.tutor_email}</td>
-      <td></td>
+      <th class="align-middle" scope="row">{$a.appointment_id}</th>
+      <td class="align-middle">{$a.appointment_starttime}</td>
+      <td class="align-middle">{$a.appointment_endtime}</td>
+      <td class="align-middle"><a href="/tutor/{$a.tutor_user_id}" target="_blank">{$a.tutor_firstname}{notempty name="a.tutor_middlename"}&nbsp;{$a.tutor_middlename|substr=0,1}{/notempty}&nbsp;{$a.tutor_lastname}</a></td>
+      <td class="align-middle">{$a.tutor_email}</td>
+      <td class="align-middle"><button type="button" onclick="cancel({$a.appointment_id})" class="btn btn-sm btn-danger"><span data-feather="minus"></span>&nbsp;Cancel</button></td>
     </tr>
     {/volist}
   </tbody>
 </table>
+<script>
+function cancel(aid) {
+  $.ajax({
+    type: "POST",
+    url: '/student/appointments/remove',
+    data: {
+      appointment_id: aid
+    },
+    success: function(data) {
+      alert(data);
+      location.reload();
+    },
+    dataType: "json"
+  });
+}
+</script>
 {/block}
