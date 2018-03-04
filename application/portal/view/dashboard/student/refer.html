@@ -1,0 +1,27 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Refer to Friends{/block}
+{block name="main"}
+<h3 class="border-bottom">Refer OrangeTutor to Friends</h3>
+<h4 class="mt-3">On Facebook</h4>
+<p><iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Forangetutor.tk&layout=button&size=large&mobile_iframe=true&width=78&height=28&appId" width="78" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe></p>
+<h4 class="mt-3">On Twitter</h4>
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+<p>
+  <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Try%20OrangeTutor%20to%20streamline%20your%20tutor%20experience%20-%20https%3A%2F%2Forangetutor.tk" data-size="large">Tweet</a>
+</p>
+{/block}

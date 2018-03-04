@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{$t->user_firstname} {$t->user_lastname} Tutor Profile - OrangeTutor</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous" />
+
+    <style>
+    .container {
+      width: auto;
+      max-width: 680px;
+      padding: 0 15px;
+    }
+    </style>
+  </head>
+  <body>
+    <main role="main" class="container">
+      <h1 class="mt-5">{$t->user_firstname}{notempty name="t->user_middlename"}&nbsp;{$t->user_middlename}{/notempty}&nbsp;{$t->user_lastname}</h1>
+      <p class="lead">{$t->user_email}</p>
+      <p>I can teach the following subject(s):
+        <ul>
+          {volist name="subjects" id="s"}
+          <li>{$s.code} - {$s.name}</li>
+          {/volist}
+        </ul>
+      </p>
+    </main>
+  </body>
+</html>

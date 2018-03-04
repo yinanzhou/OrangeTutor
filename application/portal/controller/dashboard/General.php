@@ -16,6 +16,7 @@ class General extends Controller {
   }
 
   public function home() {
+    $this->assign('active_menu','dashboard');
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
     }
@@ -39,9 +40,9 @@ class General extends Controller {
       $selfEnrollCards[] = [
         'title' => 'Admin',
         'description' => 'The system currently has no administrator, you can set yourself as one.<br /><b>This option will be disabled for all user once there exists an administator.</b>',
-        'url' => '',
+        'url' => '/admin/enroll',
         'link' => 'Add Admin Privilege',
-        'enabled' => false,
+        'enabled' => true,
       ];
     }
     if (!Auth::isStudent()) {
@@ -73,6 +74,21 @@ class General extends Controller {
     }
     $this->assign('selfEnrollCards', $selfEnrollCards);
 
+    return view();
+  }
+
+  public function profile() {
+    $this->assign('active_menu','profile');
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $this->assign('group_memberships',db('membership')
+        ->alias('m')
+        ->where('m.user_id', Auth::getUserId())
+        ->join('group g', 'm.group_id = g.group_id')
+        ->field('g.group_name as name,m.membership_validfrom as validfrom,m.membership_expiration as expiration')
+        ->select());
+    $this->assign('empty_membership_message', '<tr><td colspan="3">You do not belong to any group.</td></tr>');
     return view();
   }
 }
