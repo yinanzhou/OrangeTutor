@@ -95,6 +95,7 @@
       var containNonWhiteSpaceRegEx = /\S/;
       var emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+      // Verifies the Input of the First Name Area possesses unique characters that are suitable for a Profile's First Name.
       function checkFirstName() {
         var result = containNonWhiteSpaceRegEx.test($("#input-firstname").val());
         if (result) {
@@ -107,6 +108,7 @@
         return result;
       }
 
+      // Verifies the Input of the Last Name Area possesses unique characters that are suitable for a Profile's Last Name.
       function checkLastName() {
         var result = containNonWhiteSpaceRegEx.test($("#input-lastname").val());
         if (result) {
@@ -119,6 +121,7 @@
         return result;
       }
 
+      // (Optional) Verifies the Input of the Middle Name Area possesses unique characters that are suitable for a Profile's Middle Name.
       function checkMiddleName() {
         if (containNonWhiteSpaceRegEx.test($("#input-middlename").val())) {
           $("#input-middlename-div").addClass("has-success");
@@ -130,6 +133,7 @@
         return true;
       }
 
+      // Verification for the Input for the Email field being for a valid entry.
       function checkEmail() {
         $("#input-email").val($("#input-email").val().toLowerCase());
         var result = emailRegEx.test($("#input-email").val());
@@ -141,6 +145,8 @@
         return result;
       }
 
+      // Verification for the Input of the Pasword field to possess unique requirements via function calls.
+      // Requirements include: Password Length, Letters, Numbers and Special Characters.
       function checkPassword() {
         var password = $("#input-password").val();
         // Try to avoid short circuiting
@@ -157,6 +163,7 @@
         return result;
       }
 
+      // Verification for the Password field meeting the requirements of having a lenght of a least 8 charaters and at most 24 characters
       function checkPasswordLength(password) {
         var len = password.length;
         var result = len >= 8 && len <= 24;
@@ -171,6 +178,7 @@
       }
 
 
+      // Verification for the Password field meeting the requirements of having Lower/Upper Case characters within the Password Input.
       function checkPasswordLetters(password) {
         var result = containLowercaseRegEx.test(password) && containUppercaseRegEx.test(password);
         if (result) {
@@ -183,6 +191,7 @@
         return result;
       }
 
+      // Verification for the Password field meeting the requirements of having Numerical characters within the Password Input.
       function checkPasswordNumeric(password) {
         var result = containNumericRegEx.test(password);
         if (result) {
@@ -195,6 +204,7 @@
         return result;
       }
 
+      // Verification for the Password field meeting the requirements of having Special characters within the Password Input.
       function checkPasswordSpecialCharacter(password) {
         var result = containSpecialCharacterRegEx.test(password);
         if (result) {
@@ -207,6 +217,7 @@
         return result;
       }
 
+      // Verification for the User to ensure Password was intended via second attempt to test for matching the Password Field.
       function checkPasswordRepeat() {
         var result = $("#input-password").val() == $("#input-password-repeat").val();
         if (result) {
@@ -217,6 +228,7 @@
         return result;
       }
 
+      // Action to call upon the Trim function for the Input of First/Last/Middle Name Field.
       function trimFields() {
         $("#input-firstname").val($("#input-firstname").val().trim());
         $("#input-lastname").val($("#input-lastname").val().trim());
@@ -224,7 +236,9 @@
       }
 
 
+      // Provides a sense of security that User is "Not a Robot"
       var recaptcha_completed = false;
+      
       function recaptchaComplete() {
         recaptcha_completed = true;
       }
@@ -233,6 +247,7 @@
         recaptcha_completed = false;
       }
 
+      // Verification that all the fields of the Profile Creation Form has been met and completed with valid Inputs.
       function checkForm() {
         trimFields();
         var result = checkFirstName();
